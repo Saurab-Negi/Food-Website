@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order"
+import Footer from "./components/Footer/Footer";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/cart" element={<Cart/>} />
         <Route path="/order" element={<Order/>} />
       </Routes>
+      <Footer/>
     </div>
   )
 }
