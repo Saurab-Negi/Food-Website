@@ -5,11 +5,18 @@ import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order"
 import Footer from "./components/Footer/Footer";
+import { useState } from "react";
+import Login from "./components/Login/Login";
 
 export default function App() {
+
+  const [showLogin, setShowLogin]= useState(false);
+
   return (
     <div className="app">
-      <Navbar/>
+      {showLogin ? <Login setShowLogin={setShowLogin}/> : <></>}
+
+      <Navbar setShowLogin={setShowLogin} />
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/cart" element={<Cart/>} />

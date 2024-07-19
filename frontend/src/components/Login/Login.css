@@ -1,0 +1,21 @@
+.login-container{
+    animation: fadeIn 1s;
+}
+
+.login-input input{
+    padding: 2px;
+    outline: none;
+    border: 2px solid #c9c9c9;
+    border-radius: 5px;
+}
+
+.login-container p{
+    font-size: 0.8rem;
+}
+
+.login p span{
+    font-size: 0.9rem;
+    color: tomato;
+    font-weight: 500;
+    cursor: pointer;
+}
