@@ -30,6 +30,16 @@ a{
     }
 }
 
+/* Toastify Css */
+.toastBody {
+  font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
+  color: #10171D;
+  font-size: 1rem;
+}
+.toastProgress {
+  
+}
+
 /* Customize the entire scrollbar */
 ::-webkit-scrollbar {
     width: 8px; /* Width of the scrollbar */

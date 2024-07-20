@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import './StoreContext.css'
 import { food_list } from '../assets/assets'
+import { toast } from 'react-toastify';
 
 export const StoreContext = createContext(null)
 
@@ -11,14 +12,17 @@ const StoreContextProvider= (props) =>{
     const addToCart= (itemId) =>{
         if(!cartItems[itemId]){
             setCartItems((prev) =>({...prev,[itemId]:1}))
+            toast("Added to cart");
         }
         else{
             setCartItems((prev) =>({...prev,[itemId]:prev[itemId]+1}))
+            toast("Added to cart");
         }
     }
 
     const removeFromCart= (itemId) =>{
         setCartItems((prev) =>({...prev,[itemId]:prev[itemId]-1}))
+        toast("Removed from cart");
     }
 
     const getTotalCartAmt= () =>{

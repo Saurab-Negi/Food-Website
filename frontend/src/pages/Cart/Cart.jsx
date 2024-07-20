@@ -45,7 +45,7 @@ const Cart = () => {
           })
         }
       </div>
-      <div className="cart-bottom flex flex-col-reverse justify-between gap-20 sm:flex-row lg:gap-40 sm:my-20">
+      <div className="cart-bottom flex flex-col-reverse justify-between gap-20 mx-2 sm:flex-row lg:gap-40 sm:my-20">
         <div className="cart-total flex flex-1 flex-col gap-12">
           <h2 className='font-semibold text-2xl sm:text-3xl'>Cart Total</h2>
           <div className="">
@@ -56,12 +56,12 @@ const Cart = () => {
             <hr />
             <div className="card-total-details">
               <p>Delivery Fee</p>
-              <p>&#8377; {50}</p>
+              <p>&#8377; {getTotalCartAmt()===0 ? 0 : 30}</p>
             </div>
             <hr />
             <div className="card-total-details">
               <b>Total</b>
-              <p>&#8377; {getTotalCartAmt()+50}</p>
+              <p>&#8377; {getTotalCartAmt()===0 ? 0 : getTotalCartAmt()+30}</p>
             </div>
           </div>
           <button onClick={() =>navigate('/order')} className='text-white bg-[tomato] rounded-xl py-3 '>Proceed To Checkout</button>
