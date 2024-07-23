@@ -9,6 +9,10 @@ const StoreContextProvider= (props) =>{
 
     const [cartItems, setCartItems]= useState({});
 
+    const url= "http://localhost:3000"; // URL for everywhere
+
+    const [token, setToken]= useState("");
+
     const addToCart= (itemId) =>{
         if(!cartItems[itemId]){
             setCartItems((prev) =>({...prev,[itemId]:1}))
@@ -37,13 +41,23 @@ const StoreContextProvider= (props) =>{
         return totalAmt;
     }
 
+    // To avoid logout while page reloading
+    useEffect(() =>{
+        if(localStorage.getItem("token")){
+            setToken(localStorage.getItem("token"))
+        }
+    },[])
+
     const contextValue= {
         food_list,
         cartItems,
         setCartItems,
         addToCart,
         removeFromCart,
-        getTotalCartAmt
+        getTotalCartAmt,
+        url,
+        token, 
+        setToken
     }
     return (
         <StoreContext.Provider value={contextValue}>

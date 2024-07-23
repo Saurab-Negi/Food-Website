@@ -1,14 +1,22 @@
 import './Navbar.css'
 import {assets} from '../../assets/assets'
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext'
 
 const Navbar = ({setShowLogin}) => {
 
   const [menu, setMenu]= useState("Home");
 
-  const {getTotalCartAmt}= useContext(StoreContext);
+  const {getTotalCartAmt, token, setToken}= useContext(StoreContext);
+
+  const navigate= useNavigate();
+
+  const logout= () =>{
+    localStorage.removeItem("token")
+    setToken("");
+    navigate("/");
+  }
 
   return (
     <div className='navbar flex justify-between items-center w-full p-4
@@ -34,8 +42,20 @@ const Navbar = ({setShowLogin}) => {
               <div className="dot absolute min-w-2 min-h-2 bg-[tomato] rounded-full -top-1 -right-2 lg:-top-2 lg:-right-2 "></div>
             }            
         </div>
-        <button onClick={() =>setShowLogin(true)} className='bg-[#FF4C4C] text-[0.5rem] px-2 py-1 text-white rounded-3xl shadow-customBtn
-          sm:px-4 sm:py-2 sm:text-sm lg:px-6 lg:text-lg'>Sign In</button>
+        {
+          !token ?
+          <button onClick={() =>setShowLogin(true)} className='bg-[#FF4C4C] text-[0.5rem] px-2 py-1 text-white rounded-3xl shadow-customBtn
+          sm:px-4 sm:py-2 sm:text-sm lg:px-6 lg:text-lg'>Sign In</button> :
+          <div className="navbar-profile relative cursor-pointer">
+            <img src={assets.profile_icon} alt="" />
+            <ul className="nav-profile-dropdown absolute hidden right-0 z-10">
+              <li><img src={assets.bag_icon} alt="" /><p>Orders</p></li>
+              <hr />
+              <li onClick={logout}><img src={assets.logout_icon} alt="" /><p>Logout</p></li>
+            </ul>
+          </div>
+        }
+        
       </div>
 
     </div>
