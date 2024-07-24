@@ -7,6 +7,8 @@ import { MdDeleteForever } from "react-icons/md";
 const List = ({url}) => {
 
   const [list, setList]= useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const fetchList= async () =>{
     const response= await axios.get(`${url}/food/list`)
@@ -34,35 +36,50 @@ const List = ({url}) => {
     fetchList();
   },[])
 
+  // Calculate the items to display based on the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = list.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Generate page numbers
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(list.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className='list add flexi w-4/5 bg-white m-4 p-8 rounded-xl'>
-      
       <p className='text-3xl font-semibold'>All Food List</p>
-      <div className="list-table my-8">
-        <div className="list-table-format title bg-[#f9f9f9]">
+      <div className='list-table my-8'>
+        <div className='list-table-format title bg-[#f9f9f9]'>
           <b>Image</b>
           <b>Name</b>
           <b>Category</b>
           <b>Price</b>
           <b>Action</b>
         </div>
-        {
-          list.map((item, i) =>{
-            return(
-              <div key={i} className="list-table-format text-[#545454]">
-                <img className='w-16 rounded-md' src={`${url}/images/`+item.image} alt="" />
-                <p>{item.name}</p>
-                <p>{item.category}</p>
-                <p>{item.price}</p>
-                <MdDeleteForever onClick={() =>removeFood(item._id)} className='text-2xl text-red-600 cursor-pointer' />
-              </div>
-            )
-          })
-        }
-      </div>      
-
+        {currentItems.map((item, i) => (
+          <div key={i} className='list-table-format text-[#545454]'>
+            <img className='w-16 rounded-md' src={`${url}/images/` + item.image} alt='' />
+            <p>{item.name}</p>
+            <p>{item.category}</p>
+            <p>{item.price}</p>
+            <MdDeleteForever onClick={() => removeFood(item._id)} className='text-2xl text-red-600 cursor-pointer' />
+          </div>
+        ))}
+      </div>
+      <div className='pagination flex justify-center mt-1'>
+        {pageNumbers.map(number => (
+          <button key={number} onClick={() => paginate(number)} className='text-[0.6rem]'>
+            {number}
+          </button>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default List
+export default List;

@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import './StoreContext.css'
-import { food_list } from '../assets/assets'
 import { toast } from 'react-toastify';
+import axios from 'axios'
 
 export const StoreContext = createContext(null)
 
@@ -13,20 +13,28 @@ const StoreContextProvider= (props) =>{
 
     const [token, setToken]= useState("");
 
-    const addToCart= (itemId) =>{
+    const [food_list, setFoodList]= useState([])
+
+    const addToCart= async (itemId) =>{
         if(!cartItems[itemId]){
             setCartItems((prev) =>({...prev,[itemId]:1}))
-            toast("Added to cart");
+            toast("Added to Cart");
         }
         else{
             setCartItems((prev) =>({...prev,[itemId]:prev[itemId]+1}))
-            toast("Added to cart");
+            toast("Added to Cart");
+        }
+        if(token){
+            await axios.post(url+"/cart/add", {itemId}, {headers:{token}})
         }
     }
 
-    const removeFromCart= (itemId) =>{
+    const removeFromCart= async (itemId) =>{
         setCartItems((prev) =>({...prev,[itemId]:prev[itemId]-1}))
-        toast("Removed from cart");
+        toast("Removed from Cart");
+        if(token){
+            await axios.post(url+"/cart/remove", {itemId}, {headers:{token}})
+        }
     }
 
     const getTotalCartAmt= () =>{
@@ -41,11 +49,27 @@ const StoreContextProvider= (props) =>{
         return totalAmt;
     }
 
+    const fetchFoodList= async () =>{
+        const response= await axios.get(url+ "/food/list");
+        setFoodList(response.data.data)
+    }
+
+    // On refreshing the web page cart items will be saved
+    const loadCartData= async (token) =>{
+        const response= await axios.post(url+"/cart/get",{},{headers:{token}})
+        setCartItems(response.data.cartData)
+    }
+
     // To avoid logout while page reloading
-    useEffect(() =>{
-        if(localStorage.getItem("token")){
-            setToken(localStorage.getItem("token"))
+    useEffect(() =>{    
+        async function loadData(){
+            await fetchFoodList();
+            if(localStorage.getItem("token")){
+                setToken(localStorage.getItem("token"))
+                await loadCartData(localStorage.getItem("token"));
+            }
         }
+        loadData();
     },[])
 
     const contextValue= {

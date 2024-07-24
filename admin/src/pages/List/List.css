@@ -6,3 +6,15 @@
     border: 1px solid #cacaca;
     font-size: 0.9rem;
 }
+
+.pagination button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 0.5rem;
+    padding: 2px 5px;  
+}
+  
+.pagination button:hover {
+    background-color: #ddd;
+}
