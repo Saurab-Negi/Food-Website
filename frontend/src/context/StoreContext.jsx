@@ -37,17 +37,20 @@ const StoreContextProvider= (props) =>{
         }
     }
 
-    const getTotalCartAmt= () =>{
-        let totalAmt= 0;
-        for(const item in cartItems){
-            if(cartItems[item]>0){
-                let itemInfo= food_list.find((product) =>
-                    product._id===item);
-                    totalAmt+= itemInfo.price * cartItems[item];
+    const getTotalCartAmt = () => {
+        let totalAmt = 0;
+        for (const item in cartItems) {
+            if (cartItems[item] > 0) {
+                let itemInfo = food_list.find((product) => product._id === item);
+                if (itemInfo) { // Check if itemInfo is not undefined
+                    totalAmt += itemInfo.price * cartItems[item];
+                } else {
+                    console.warn(`Product with id ${item} not found in food_list`);
+                }
             }
         }
         return totalAmt;
-    }
+    };    
 
     const fetchFoodList= async () =>{
         const response= await axios.get(url+ "/food/list");

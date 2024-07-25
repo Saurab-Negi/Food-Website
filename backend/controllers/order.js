@@ -16,7 +16,7 @@ const placeOrder= async (req, res) =>{
             address: req.body.address
         })
         await newOrder.save();
-        await usermodel.findByIdAndUpdate(req.body.userId,{cartData: {}});
+        await usermodel.findByIdAndUpdate(req.body.userId,{cartData: {}}); // Cleaning users cart data
 
         const line_items= req.body.items.map((item) =>({
             price_data: {
@@ -24,7 +24,7 @@ const placeOrder= async (req, res) =>{
                 product_data: {
                     name: item.name
                 },
-                unit_amount: item.price*100*80
+                unit_amount: item.price*100,
             },
             quantity: item.quantity
         }))
@@ -32,19 +32,20 @@ const placeOrder= async (req, res) =>{
             price_data:{
                 currency: "inr",
                 product_data: {
-                    name: "Delivery Charges"
+                    name: "Convenience Fee"
                 },
-                unit_amount: 2*100*80
+                unit_amount: 1*100*50,
             },
             quantity: 1
         })
+        // Creating a session
         const session= await stripe.checkout.sessions.create({
             line_items: line_items,
             mode: 'payment',
-            success_url: `${frontend_url}/verify?sucess=true%orderId=${newOrder._id}`,
-            cancel_url: `${frontend_url}/verify?sucess=false%orderId=${newOrder._id}`,
+            success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
+            cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
         })
-        res.json({success: true, session_url: session_url})
+        res.json({success: true, session_url: session.url})
     }
     catch(error){
         console.log(error)
@@ -52,4 +53,21 @@ const placeOrder= async (req, res) =>{
     }
 }
 
-export {placeOrder}
+const verifyOrder= async (req, res) =>{
+    const {orderId, success}= req.body;
+    try{
+        if(success=="true"){
+            await orderModel.findByIdAndUpdate(orderId, {payment: true});
+            res.json({success: true, message: "paid"})
+        }
+        else{
+            res.json({success: false, message: "Not Paid"})
+        }
+    }
+    catch(error){
+        console.log(error)
+        res.json({success: false, message: "Error"})
+    }
+}
+
+export {placeOrder, verifyOrder}

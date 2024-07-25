@@ -1,30 +1,74 @@
 import './Order.css'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { StoreContext } from '../../context/StoreContext'
+import axios from 'axios';
 
 const Order = () => {
 
-  const { getTotalCartAmt}= useContext(StoreContext);
+  const { getTotalCartAmt, token, food_list, cartItems, url }= useContext(StoreContext);
+
+  const [data, setData]= useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    address: "",
+    phone: "",
+    city: "",
+    postalcode: "",
+    state: "",
+    contry: "",    
+  })
+
+  const onchangeHandler= (event) =>{
+    const name= event.target.name;
+    const value= event.target.value;
+    setData(data =>({...data, [name]:value}))
+  }
+
+  const placeOrder= async (event) =>{
+    event.preventDefault();
+    let orderItems= [];
+    food_list.map((item) =>{
+      if(cartItems[item._id]>0){
+        let itemInfo= item;
+        itemInfo["quantity"]= cartItems[item._id];
+        orderItems.push(itemInfo);
+      }
+    })
+    let orderData= {
+      address : data,
+      items: orderItems,
+      amount: getTotalCartAmt()+1,
+    }
+    let response= await axios.post(url+"/order/place", orderData, {headers: {token}})
+    if(response.data.success){
+      const {session_url}= response.data;
+      window.location.replace(session_url);
+    }
+    else{
+      alert("Error")
+    }
+  }
 
   return (
-    <form className='order flex flex-col items-start justify-between m-6 sm:flex-row sm:m-16 sm:gap-12 md:gap-20 lg:gap-40'>
+    <form onSubmit={placeOrder} className='order flex flex-col items-start justify-between m-6 sm:flex-row sm:m-16 sm:gap-12 md:gap-20 lg:gap-40'>
       
       <div className="order-left w-full my-6 sm:m-0">
         <p className='title font-semibold text-xl mb-6 sm:mb-16 sm:text-2xl lg:text-3xl'>Delivery Informaton</p>
         <div className="multi-fields">
-          <input type="text" placeholder='First Name' />
-          <input type="text" placeholder='Last Name' />
+          <input name='firstname' onChange={onchangeHandler} value={data.firstname || ''} type="text" placeholder='First Name' required />
+          <input name='lastname' onChange={onchangeHandler} value={data.lastname || ''} type="text" placeholder='Last Name' required />
         </div>
-        <input type="email" placeholder='Email Address' />
-        <textarea className='p-2 text-sm md:text-base' type="text" placeholder='Address' rows="3" />
-        <input type="number" placeholder='Contact No' />
+        <input name='email' onChange={onchangeHandler} value={data.email || ''} type="email" placeholder='Email Address' required />
+        <textarea name='address' onChange={onchangeHandler} value={data.address || ''} className='p-2 text-sm md:text-base' type="text" placeholder='Address' rows="3" required />
+        <input name='phone' onChange={onchangeHandler} value={data.phone || ''} type="number" placeholder='Contact No' required />
         <div className="multi-fields">
-          <input type="text" placeholder='City' />
-          <input type="text" placeholder='Postal Code' />          
+          <input name='city' onChange={onchangeHandler} value={data.city || ''} type="text" placeholder='City' required />
+          <input name='postalcode' onChange={onchangeHandler} value={data.postalcode || ''} type="text" placeholder='Postal Code' required />          
         </div>
         <div className="multi-fields">
-          <input type="text" placeholder='State' />
-          <input type="text" placeholder='Country' />
+          <input name='state' onChange={onchangeHandler} value={data.state || ''} type="text" placeholder='State' required />
+          <input name='country' onChange={onchangeHandler} value={data.country || ''} type="text" placeholder='Country' required />
         </div>        
       </div>
       <div className="order-right w-full sm:w-3/4">
@@ -46,7 +90,7 @@ const Order = () => {
               <p>&#8377; {getTotalCartAmt()===0 ? 0 : getTotalCartAmt()+30}</p>
             </div>
           </div>
-          <button className='text-white bg-[tomato] rounded-xl py-3 '>Proceed To Payment</button>
+          <button type='submit' className='text-white bg-[tomato] rounded-xl py-3 '>Proceed To Payment</button>
         </div>
       </div>
 
