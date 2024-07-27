@@ -1,5 +1,6 @@
 import './Order.css'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios';
 
@@ -49,6 +50,19 @@ const Order = () => {
       alert("Error")
     }
   }
+
+  const navigate= useNavigate();
+
+  useEffect(() =>{
+    if(!token){
+      alert("Login to proceed")
+      navigate('/cart')
+    }
+    else if(getTotalCartAmt()===0){
+      navigate('/cart')
+      alert("Cart is empty")
+    }
+  },[token])
 
   return (
     <form onSubmit={placeOrder} className='order flex flex-col items-start justify-between m-6 sm:flex-row sm:m-16 sm:gap-12 md:gap-20 lg:gap-40'>

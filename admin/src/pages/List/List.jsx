@@ -51,10 +51,11 @@ const List = ({url}) => {
   }
 
   return (
-    <div className='list add flexi w-4/5 bg-white m-4 p-8 rounded-xl'>
+    <div className='list add flex flex-col justify-between w-4/5 bg-white m-4 p-8 rounded-xl'>
+      
+      <div className='list-table'>
       <p className='text-3xl font-semibold'>All Food List</p>
-      <div className='list-table my-8'>
-        <div className='list-table-format title bg-[#f9f9f9]'>
+        <div className='list-table-format title bg-[#f9f9f9] mt-6'>
           <b>Image</b>
           <b>Name</b>
           <b>Category</b>
