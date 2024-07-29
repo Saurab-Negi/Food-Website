@@ -9,7 +9,7 @@ const Footer = () => {
 
         <div className="footer-content w-full flex flex-col gap-8 my-4 md:grid lg:grid lg:gap-32">
                 <div className="footer-content-left">
-                    <img className='w-32 mb-4 md:w-40 lg:w-52' src={assets.logo} alt="" />
+                    <img className='w-20 mb-4 sm:w-24 lg:w-32' src={assets.logo} alt="" />
                     <p className='text-xs md:text-sm lg:text-base'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse maxime blanditiis explicabo laboriosam optio aspernatur vero necessitatibus? Ipsa dolore atque quae, nobis sit aut! Omnis itaque numquam asperiores quibusdam vel!</p>
                     <div className="flex items-center mt-4 gap-3">
                         <FaSquareInstagram className='footer-social-icons' />
@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
         <hr className='w-full h-[1px] m-4 bg-[#c8c8c8]' />
         <p className="footer-copyright text-xs md:text-sm lg:text-base">
-            By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners. 2008-2024 © Zomato™ Ltd. All rights reserved.
+            By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners. 2008-2024 © QuickBite™ Ltd. All rights reserved.
         </p>
 
     </div>

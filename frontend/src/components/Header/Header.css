@@ -1,8 +1,8 @@
 .header{
-    background: url('/header_img.png') no-repeat center center;
-    object-fit: contain;
+    background: url('../../assets/header_img.jpg') no-repeat center center;
+    background-size: cover;
     position: relative;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
 }
 
 .header-content{
