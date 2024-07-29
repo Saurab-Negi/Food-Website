@@ -17,7 +17,7 @@ const Order = () => {
     city: "",
     postalcode: "",
     state: "",
-    contry: "",    
+    country: "",    
   })
 
   const onchangeHandler= (event) =>{
