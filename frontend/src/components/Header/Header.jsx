@@ -3,7 +3,7 @@ import {assets} from '../../assets/assets'
 
 const Header = () => {
   return (
-    <div className='header shadow-custom h-44 m-4 mt-8 sm:h-72 sm:m-12 md:h-96 lg:h-[80vh] lg:m-16'>
+    <div className='header shadow-custom h-56 m-4 mt-8 sm:h-72 sm:m-12 md:h-96 lg:h-[80vh] lg:m-16'>
         
         <div className="header-content bottom-4 left-4 md:bottom-8 md:left-8">
             <h2 className='text-3xl leading-none w-3/4 font-bold text-white sm:text-4xl sm:leading-tight md:w-1/2 lg:leading-snug lg:text-5xl'>Order your favourite food here</h2>
