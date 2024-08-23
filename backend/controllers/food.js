@@ -47,5 +47,4 @@ const listFood= async (req, res) =>{
     }
 }
 
-
 export {addFood, removeFood, listFood}

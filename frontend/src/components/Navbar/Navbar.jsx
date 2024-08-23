@@ -45,7 +45,7 @@ const Navbar = ({setShowLogin}) => {
         {
           !token ?
           <button onClick={() =>setShowLogin(true)} className='bg-[#FF4C4C] px-4 py-2 text-sm text-white rounded-3xl shadow-customBtn
-           lg:px-6 lg:text-lg'>Sign In</button> :
+           lg:px-6 lg:text-lg'>Login</button> :
           <div className="navbar-profile relative cursor-pointer">
             <img src={assets.profile_icon} alt="" />
             <ul className="nav-profile-dropdown absolute hidden right-0 z-10">
